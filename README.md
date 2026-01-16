@@ -90,10 +90,147 @@ HR Agent/config.py
 OPENAI_API_KEY = "sk-..."
 ```
 
-## Offline Mode
-If no API key is provided, or if the LLM service is unavailable or rate-limited, the system automatically switches to Offline Mode.
-In this mode, responses are generated using document-grounded extraction logic without any external API calls.
+### Offline Mode
+
+If no API key is provided, or if the LLM service becomes unavailable or rate-limited, the system automatically switches to **Offline Mode**.
+
+In Offline Mode:
+
+- No external API calls are made  
+- Answers are generated using document-grounded extraction logic  
+- The system remains fully functional for demos and testing  
+
+This design ensures enterprise-grade resilience and predictable behavior.
 
 
+---
+## Data Ingestion
 
+The HR Operations Enterprise Assistant uses a structured **Retrieval-Augmented Generation (RAG)** ingestion pipeline to process large, complex enterprise documents such as annual reports and HR policy manuals.
+
+Source documents are ingested in their raw PDF form and processed at startup to create a searchable knowledge base that preserves contextual meaning and page-level traceability.
+
+### Ingestion Workflow
+
+- **PDF Loading**  
+  The system loads the source document (e.g., Annual Report / HR Policy PDF) from the project root directory.
+
+- **Page-Level Text Extraction**  
+  Text is extracted on a per-page basis to retain accurate page references for citation and explainability.
+
+- **Content Cleaning & Normalization**  
+  Extracted text is cleaned, normalized, and prepared for semantic processing.
+
+- **Semantic Chunking**  
+  The document is divided into logically meaningful text chunks to balance context preservation and retrieval efficiency.
+
+- **Embedding Generation**  
+  Vector embeddings are generated for each chunk using a sentence-level embedding model.
+
+- **Vector Indexing (FAISS)**  
+  All embeddings are indexed using FAISS to enable fast and accurate semantic similarity search during query execution.
+
+This ingestion process allows the assistant to retrieve precise, context-aware information from documents spanning hundreds of pages while maintaining citation accuracy and minimizing hallucination.
+
+---
+
+## Usage
+
+The HR Operations Enterprise Assistant is designed to be used through a **terminal-based interface**, ensuring controlled, sequential interaction and stable execution under rate-limited environments.
+
+The CLI provides a simple yet powerful way for users to ask HR-related questions or issue action-oriented commands using natural language.
+
+### Interactive CLI
+
+- Launch the assistant by running the CLI entry point.
+- Users can type queries directly into the terminal.
+- Each query is processed individually to avoid concurrency issues and API abuse.
+
+### Example Interactions
+
+Users can ask informational or policy-based questions such as:
+- *What is the dividend distribution policy?*
+- *Am I eligible for maternity leave?*
+
+They can also issue action-oriented commands such as:
+- *Apply for earned leave next Monday*
+- *Schedule a meeting with HR*
+
+### Output Behavior
+
+- **Informational and Policy Queries**  
+  Responses are displayed as natural language answers, grounded in source documents and accompanied by page-level citations.
+
+- **Action Requests**  
+  The system returns **pure, structured JSON outputs** representing the requested HR action, with no additional prose or formatting.
+
+### Session Controls
+
+- Queries are handled sequentially in a human-paced loop.
+- Built-in cooldowns prevent rapid or duplicate requests.
+- Typing `exit` cleanly terminates the session.
+
+This usage model prioritizes reliability, clarity, and enterprise-safe behavior over UI complexity.
+
+---
+
+## Programmatic Testing
+
+The HR Operations Enterprise Assistant includes a **programmatic testing mode** to validate system behavior without manual interaction. This mode is useful for regression testing, debugging, and preparing controlled demo scenarios.
+
+Programmatic testing executes predefined queries that simulate real user interactions across different intent types.
+
+### Test Execution
+
+- The test runner invokes the agent directly using scripted inputs.
+- Each query is processed through the same intent classification, RAG, and action-generation pipeline used in the CLI.
+- Results are printed to the terminal for inspection.
+
+### Test Coverage
+
+The programmatic test suite covers:
+- **Informational Queries**  
+  Verifies correct retrieval and citation of facts from source documents.
+- **Policy Interpretation**  
+  Tests reasoning across multiple policy clauses and constraints.
+- **Agentic HR Actions**  
+  Validates correct generation of deterministic JSON outputs.
+- **Offline Fallback Behavior**  
+  Ensures the system remains functional when external LLM services are unavailable.
+
+This testing approach ensures consistent behavior across updates and provides confidence in the system’s robustness and enterprise readiness.
+
+
+---
+
+## System Architecture (High-Level Flow)
+
+The HR Operations Enterprise Assistant follows a **modular, agentic architecture** designed to ensure clarity, safety, and enterprise-grade reliability. Each stage in the pipeline has a well-defined responsibility, enabling explainable reasoning and controlled execution.
+
+### Execution Pipeline
+
+- **Input Capture**  
+  User input is captured via the terminal-based CLI and forwarded to the agent orchestrator for processing.
+
+- **Intent Classification**  
+  The query is analyzed to determine the user’s intent, categorizing it as:
+  - Policy / Informational
+  - Action
+  - Comparative
+
+- **Context Retrieval (RAG)**  
+  For informational and policy queries, relevant document chunks are retrieved from the vector store using semantic similarity search, preserving page-level traceability.
+
+- **Reasoning & Synthesis**  
+  Retrieved context is injected into the reasoning layer, where the system synthesizes a grounded response using an LLM or offline extraction logic.
+
+- **Action Execution Path**  
+  When an action intent is detected, the system bypasses natural language synthesis and invokes the action engine to construct a deterministic JSON payload.
+
+- **Output Normalization**  
+  The final response is normalized before display:
+  - Natural language answers for informational queries
+  - Raw, machine-readable JSON for action requests
+
+This architecture enforces a strict separation between reasoning and execution, minimizing hallucination risk while enabling agentic workflow behavior.
 
