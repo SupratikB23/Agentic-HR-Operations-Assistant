@@ -83,6 +83,17 @@ Set your OpenRouter / OpenAI API key in either of the following ways:
 ```bash
 export OPENAI_API_KEY="sk-..."
 ```
+#### Option 2: onfiguration File
+Add the key directly in:
+```bash
+HR Agent/config.py
+OPENAI_API_KEY = "sk-..."
+```
+
+## Offline Mode
+If no API key is provided, or if the LLM service is unavailable or rate-limited, the system automatically switches to Offline Mode.
+In this mode, responses are generated using document-grounded extraction logic without any external API calls.
+
 
 
 
