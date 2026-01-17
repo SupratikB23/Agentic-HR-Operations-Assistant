@@ -6,8 +6,6 @@ The **HR Operations Enterprise Assistant** is an agentic, terminal-based NLP sys
 
 The assistant uses **Retrieval-Augmented Generation (RAG)** to parse and reason over large, unstructured enterprise documents (such as annual reports and HR policy PDFs). It cleanly separates **policy interpretation** from **action execution**, preventing hallucinations in critical workflows like leave applications or HR requests.
 
-This project is built for enterprise realism, robustness under rate limits, and demo safety.
-
 ---
 
 ## Key Capabilities
