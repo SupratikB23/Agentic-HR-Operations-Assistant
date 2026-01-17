@@ -17,7 +17,6 @@ The assistant uses **Retrieval-Augmented Generation (RAG)** to parse and reason 
   Automatically routes user input into one of three execution paths:
   - **Policy / Informational**: Citation-backed answers using RAG  
   - **Action**: Deterministic JSON outputs for HR workflows  
-  - **Comparative**: Analytical queries involving trends or differences  
 
 - **Enterprise-Grade RAG Pipeline**  
   Large PDF documents are ingested, chunked, embedded, and indexed using **FAISS**, enabling accurate semantic retrieval across hundreds of pages.
