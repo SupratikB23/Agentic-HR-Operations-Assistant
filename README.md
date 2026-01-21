@@ -47,7 +47,13 @@ Each action is triggered via natural language and resolved into a deterministic 
 ```text
 ├── cli.py                          # Main terminal-based interface
 ├── run_hr_agent.py                 # Script for batch / test execution
+|
 ├── FULL-Annual-Report-2024-25.pdf  # Source document for RAG
+|
+├── README.md
+├── NOTICE
+├── LICENSE
+|
 └── HR Agent/
     ├── nlp_agent.py                # Central agent orchestrator
     ├── knowledge_base.py           # PDF ingestion and FAISS indexing
@@ -55,9 +61,7 @@ Each action is triggered via natural language and resolved into a deterministic 
     ├── action_engine.py            # HR action → JSON generation
     ├── llm_interface.py            # LLM + offline fallback handler
     └── config.py                   # Configuration and API keys
-├── README.md
-├── NOTICE
-└── LICENSE
+
 ```
 
 ## Setup & Installation
