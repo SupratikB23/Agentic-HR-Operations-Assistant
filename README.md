@@ -42,6 +42,7 @@ Each action is triggered via natural language and resolved into a deterministic 
 
 ---
 
+
 ## Project Structure
 
 ```text
@@ -63,6 +64,12 @@ Each action is triggered via natural language and resolved into a deterministic 
     └── config.py                   # Configuration and API keys
 
 ```
+---
+## Demo Use
+<img width="1166" height="588" alt="Screenshot 2026-01-26 175200" src="https://github.com/user-attachments/assets/935db325-e237-430b-9f6a-4253bb0e634a" />
+
+---
+
 
 ## Setup & Installation
 
